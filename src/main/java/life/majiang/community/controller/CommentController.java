@@ -33,33 +33,7 @@ public class CommentController {
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
-        }
-
-        if (user.getDisable() != null && user.getDisable() == 1) {
-            return ResultDTO.errorOf(CustomizeErrorCode.USER_DISABLE);
-        }
-
-        if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())) {
-            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
-        }
-
-        if (questionRateLimiter.reachLimit(user.getId())) {
-            return ResultDTO.errorOf(CustomizeErrorCode.RATE_LIMIT);
-        }
-
-        Comment comment = new Comment();
-        comment.setParentId(commentCreateDTO.getParentId());
-        comment.setContent(commentCreateDTO.getContent());
-        comment.setType(commentCreateDTO.getType());
-        comment.setGmtModified(System.currentTimeMillis());
-        comment.setGmtCreate(System.currentTimeMillis());
-        comment.setCommentator(user.getId());
-        comment.setLikeCount(0L);
-        commentService.insert(comment, user);
-        return ResultDTO.okOf();
+        
     }
 
     @ResponseBody
