@@ -21,15 +21,6 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     RATE_LIMIT(2014, "操作太快了，请稍后重试"),
     ;
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    @Override
-    public Integer getCode() {
-        return code;
-    }
 
     private Integer code;
     private String message;
